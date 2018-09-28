@@ -1,7 +1,7 @@
 ROSTemplateFormatVersion: '2015-09-01'
 Transform: 'Aliyun::Serverless-2018-04-03'
 Resources:
-  AliyunServerless:
+  AliyunServerlessDefault:
     Type: 'Aliyun::Serverless::Service'
     Properties:
       Description: 'Function Compute Service for the Meetup'
@@ -21,7 +21,7 @@ Resources:
         Runtime: nodejs8
         CodeUri: './'
         Timeout: 10
-  PeopleTable:
+  HumansTable:
     Type: 'Aliyun::Serverless::TableStore'
     Properties:
       ClusterType: HYBRID
@@ -32,7 +32,7 @@ Resources:
         PrimaryKeyList:
         - Name: id
           Type: INTEGER
-  ApiGroup:
+  ApiGroupDefault:
     Type: 'Aliyun::Serverless::Api'
     Properties:
       StageName: RELEASE

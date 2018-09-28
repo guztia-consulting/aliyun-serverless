@@ -2,17 +2,15 @@
 
 const TableStore = require('tablestore')
 
-const instanceName = 'PeopleTable'
+const instanceName = 'HumansTable'
 const tableName = 'users'
 
 exports.handler = function(event, context, callback) {
-    const az = 'ap-southeast-2'
-    const creds = context.credentials
     const client = new TableStore.Client({
-        accessKeyId: creds.accessKeyId,
-        secretAccessKey: creds.accessKeySecret,
-        stsToken: creds.securityToken,
-        endpoint: 'http://' + instanceName + '.' + az + '.ots.aliyuncs.com',
+        accessKeyId: context.credentials.accessKeyId,
+        secretAccessKey: context.credentials.accessKeySecret,
+        stsToken: context.credentials.securityToken,
+        endpoint: 'http://' + instanceName + '.' + context.region + '.ots.aliyuncs.com',
         instancename: instanceName,
     })
 
