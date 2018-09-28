@@ -1,7 +1,7 @@
 ROSTemplateFormatVersion: '2015-09-01'
 Transform: 'Aliyun::Serverless-2018-04-03'
 Resources:
-  AliyunServerlessDefault:
+  MeetupService:
     Type: 'Aliyun::Serverless::Service'
     Properties:
       Description: 'Function Compute Service for the Meetup'
@@ -21,7 +21,7 @@ Resources:
         Runtime: nodejs8
         CodeUri: './'
         Timeout: 10
-  HumansTable:
+  MeetupTable:
     Type: 'Aliyun::Serverless::TableStore'
     Properties:
       ClusterType: HYBRID
@@ -32,7 +32,7 @@ Resources:
         PrimaryKeyList:
         - Name: id
           Type: INTEGER
-  ApiGroupDefault:
+  MeetupGroup:
     Type: 'Aliyun::Serverless::Api'
     Properties:
       StageName: RELEASE
@@ -41,9 +41,9 @@ Resources:
           get:
             x-aliyun-apigateway-api-name: theboss_get
             x-aliyun-apigateway-fc:
-              arn: acs:fc:::services/${AliyunServerless.Arn}/functions/${theboss.Arn}/
+              arn: acs:fc:::services/${MeetupService.Arn}/functions/${theboss.Arn}/
         '/time':
           get:
             x-aliyun-apigateway-api-name: time_get
             x-aliyun-apigateway-fc:
-              arn: acs:fc:::services/${AliyunServerless.Arn}/function/${time.Arn}/
+              arn: acs:fc:::services/${MeetupService.Arn}/function/${time.Arn}/

@@ -6,7 +6,7 @@ exports.handler = function (event, context, callback) {
     isBase64Encoded: true,
     statusCode: 200,
     headers: {
-      "Content-type": "application/json",
+      'Content-type': 'application/json',
     },
     body: new Buffer(response).toString('base64')
   }
