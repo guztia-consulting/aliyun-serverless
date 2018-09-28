@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>阿里云 无服务器 - alibaba cloud serverless</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<style>
+		html {
+			font-family: sans-serif;
+			font-size: 14px;
+		}
+
+		h1 {
+			text-align: center;
+			margin: 0;
+		}
+
+		h1 + h1 {
+			opacity: .5;
+			font-size: 12px;
+			margin-top: -6px;
+		}
+
+		h2 {
+			font-size: 1.8em;
+		}
+
+		hr {
+			margin-bottom: 45px;
+		}
+
+		small {
+			font-size: 12px;
+			opacity: .5;
+		}
+
+		p span {
+			font-weight: 900;
+		}
+	</style>
+</head>
+<body>
+
+<h1>阿里云 无服务器</h1>
+<h1>alibaba cloud serverless</h1>
+
+<h2><code>Meetup28092018/time</code>
+	<small> (SSO + API Gateway + Function Compute)</small>
+</h2>
+<p>Response: <span id="time">loading...</span>.</p>
+<hr/>
+
+<h2><code>Meetup28092018/theboss</code>
+	<small> (SSO + API Gateway + Function Compute + Table Store)</small>
+</h2>
+<p>Response: <span id="boss">loading...</span>.</p>
+<hr/>
+
+<script type="text/javascript">
+    const apiBaseName = 'id-base-goes-here';
+    const apiRegion = 'region-goes-here';
+    const apiBaseUrl = 'http://' + apiBaseName + '-' + apiRegion + '.alicloudapi.com';
+    const getTime = new XMLHttpRequest();
+    const getBossName = new XMLHttpRequest();
+
+    getTime.open('GET', apiBaseUrl + '/time', true);
+    getTime.onload = function () {
+        const data = JSON.parse(getTime.responseText);
+
+        document.getElementById('time').innerHTML = data.time;
+    };
+
+    getBossName.open('GET', apiBaseUrl + '/theboss', true);
+    getBossName.onload = function () {
+        const data = JSON.parse(getBossName.responseText);
+        const name = data.data.row.attributes[0].columnValue;
+
+        document.getElementById('boss').innerHTML = name;
+    };
+
+    getTime.send();
+    getBossName.send();
+</script>
+
+</body>
+</html>

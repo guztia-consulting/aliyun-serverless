@@ -1,0 +1,49 @@
+ROSTemplateFormatVersion: '2015-09-01'
+Transform: 'Aliyun::Serverless-2018-04-03'
+Resources:
+  AliyunServerlessChangeThisName:
+    Type: 'Aliyun::Serverless::Service'
+    Properties:
+      Description: 'Function Compute Service for the Meetup'
+      Policies:
+      - AliyunOTSFullAccess
+    theboss:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: theboss.handler
+        Runtime: nodejs8
+        CodeUri: './'
+        Timeout: 10
+    time:
+      Type: 'Aliyun::Serverless::Function'
+      Properties:
+        Handler: time.handler
+        Runtime: nodejs8
+        CodeUri: './'
+        Timeout: 10
+  PeopleTable:
+    Type: 'Aliyun::Serverless::TableStore'
+    Properties:
+      ClusterType: HYBRID
+      Description: 'Table used to store people names'
+    users:
+      Type: 'Aliyun::Serverless::TableStore::Table'
+      Properties:
+        PrimaryKeyList:
+        - Name: id
+          Type: INTEGER
+  ApiMeetupGroup:
+    Type: 'Aliyun::Serverless::Api'
+    Properties:
+      StageName: RELEASE
+      DefinitionBody:
+        '/theboss':
+          get:
+            x-aliyun-apigateway-api-name: theboss_get
+            x-aliyun-apigateway-fc:
+              arn: acs:fc:::services/${Meetup28092018.Arn}/functions/${theboss.Arn}/
+        '/time':
+          get:
+            x-aliyun-apigateway-api-name: time_get
+            x-aliyun-apigateway-fc:
+              arn: acs:fc:::services/${Meetup28092018.Arn}/function/${time.Arn}/
